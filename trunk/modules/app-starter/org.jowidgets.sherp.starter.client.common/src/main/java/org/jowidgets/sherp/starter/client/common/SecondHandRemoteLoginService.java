@@ -30,8 +30,8 @@ package org.jowidgets.sherp.starter.client.common;
 
 import org.jowidgets.cap.common.api.service.IAuthorizationProviderService;
 import org.jowidgets.cap.tools.starter.client.AbstractRemoteLoginService;
-import org.jowidgets.sherp.app.common.service.security.AuthorizationProviderServiceId;
 import org.jowidgets.service.api.IServiceId;
+import org.jowidgets.useradmin.common.security.AuthorizationProviderServiceId;
 
 public class SecondHandRemoteLoginService extends AbstractRemoteLoginService {
 
