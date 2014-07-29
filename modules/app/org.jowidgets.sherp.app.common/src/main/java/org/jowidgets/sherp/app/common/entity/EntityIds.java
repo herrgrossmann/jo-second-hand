@@ -26,14 +26,10 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.common.entity;
 
-import org.jowidgets.service.tools.ServiceProviderBuilder;
+public enum EntityIds {
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
-
-	public SecondHandServiceProviderBuilder() {
-
-	}
+	CUSTOMER
 
 }

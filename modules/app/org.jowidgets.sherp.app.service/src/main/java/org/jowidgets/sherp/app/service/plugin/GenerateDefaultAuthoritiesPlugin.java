@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,14 +26,22 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.service.plugin;
 
-import org.jowidgets.service.tools.ServiceProviderBuilder;
+import org.jowidgets.sherp.app.common.security.SecondHandAuthKeys;
+import org.jowidgets.useradmin.service.authentication.plugin.IUserAdminAutheticationPlugin;
+import org.jowidgets.useradmin.service.data.UserAdminDataGenerator;
+import org.jowidgets.useradmin.service.persistence.UseradminPersistenceUnitNames;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+final class GenerateDefaultAuthoritiesPlugin implements IUserAdminAutheticationPlugin {
 
-	public SecondHandServiceProviderBuilder() {
-
+	@Override
+	public void beforeAuthentication() {
+		//create modeler admin if not yet exists
+		new UserAdminDataGenerator().createDataIfRoleNotExists(
+				UseradminPersistenceUnitNames.USER_ADMIN,
+				SecondHandAuthKeys.SECOND_HAND_ADMIN_GROUP,
+				SecondHandAuthKeys.ALL_AUTHORIZATIONS);
 	}
 
 }

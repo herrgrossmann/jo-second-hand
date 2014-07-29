@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -25,44 +25,35 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+package org.jowidgets.sherp.app.common.bean;
 
-package org.jowidgets.sherp.app.service.security;
+import java.util.Arrays;
+import java.util.List;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.jowidgets.security.api.IAuthorizationService;
-import org.jowidgets.security.api.IPrincipal;
-import org.jowidgets.security.tools.DefaultPrincipal;
+import org.jowidgets.cap.common.api.bean.IBean;
+import org.jowidgets.cap.security.common.api.annotation.CreateAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.DeleteAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.ReadAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.UpdateAuthorization;
+import org.jowidgets.sherp.app.common.security.SecondHandAuthKeys;
 
-public final class SecondHandAuthorizationService implements IAuthorizationService<IPrincipal<String>> {
+@CreateAuthorization(SecondHandAuthKeys.CREATE_CUSTOMER)
+@ReadAuthorization(SecondHandAuthKeys.READ_CUSTOMER)
+@UpdateAuthorization(SecondHandAuthKeys.UPDATE_CUSTOMER)
+@DeleteAuthorization(SecondHandAuthKeys.DELETE_CUSTOMER)
+public interface ICustomer extends IBean {
 
-	private static final String READ_ALL = "READ_ALL";
-	private static final String WRITE_ALL = "WRITE_ALL";
+	String NAME = "name";
 
-	private static final Set<String> ADMIN_AUTHORITIES = createAdminAuthorities();
-	private static final Set<String> GUEST_AUTHORITIES = createGuestAuthorities();
+	List<String> ALL_PROPERTIES = Arrays.asList(NAME, IBean.ID_PROPERTY, IBean.VERSION_PROPERTY);
 
-	private static Set<String> createAdminAuthorities() {
-		final Set<String> result = new HashSet<String>();
-		result.add(READ_ALL);
-		result.add(WRITE_ALL);
-		return result;
-	}
+	@NotNull
+	@Size(min = 2, max = 50)
+	String getName();
 
-	private static Set<String> createGuestAuthorities() {
-		final Set<String> result = new HashSet<String>();
-		result.add(READ_ALL);
-		return result;
-	}
+	void setName(String name);
 
-	@Override
-	public IPrincipal<String> authorize(final IPrincipal<String> principal) {
-		if ("admin".equals(principal.getUsername())) {
-			return new DefaultPrincipal(principal.getUsername(), ADMIN_AUTHORITIES);
-		}
-		else {
-			return new DefaultPrincipal(principal.getUsername(), GUEST_AUTHORITIES);
-		}
-	}
 }

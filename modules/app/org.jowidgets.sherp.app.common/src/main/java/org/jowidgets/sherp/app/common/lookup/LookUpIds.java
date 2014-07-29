@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2012, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,27 +26,8 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service.security;
+package org.jowidgets.sherp.app.common.lookup;
 
-import org.jowidgets.security.api.IAuthenticationService;
-import org.jowidgets.security.api.ICredentials;
-import org.jowidgets.security.api.IPrincipal;
-import org.jowidgets.security.tools.DefaultPrincipal;
-import org.jowidgets.util.EmptyCheck;
+public enum LookUpIds {
 
-public final class SecondHandAuthenticationService implements IAuthenticationService<IPrincipal<String>, ICredentials> {
-
-	@Override
-	public IPrincipal<String> authenticate(final ICredentials credentials) {
-		if ("admin".equals(credentials.getUsername()) && "admin".equals(credentials.getPassword())) {
-			return new DefaultPrincipal(credentials.getUsername());
-		}
-		else if ("guest".equals(credentials.getUsername()) && "guest".equals(credentials.getPassword())) {
-			return new DefaultPrincipal(credentials.getUsername());
-		}
-		else if (EmptyCheck.isEmpty(credentials.getUsername()) && EmptyCheck.isEmpty(credentials.getPassword())) {
-			return new DefaultPrincipal("guest");
-		}
-		return null;
-	}
 }

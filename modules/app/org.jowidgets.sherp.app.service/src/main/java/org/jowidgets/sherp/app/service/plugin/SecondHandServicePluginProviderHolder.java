@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2012, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,19 +26,23 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.common.service.security;
+package org.jowidgets.sherp.app.service.plugin;
 
-import org.jowidgets.cap.common.api.service.IAuthorizationProviderService;
-import org.jowidgets.security.tools.DefaultPrincipal;
-import org.jowidgets.service.api.IServiceId;
-import org.jowidgets.service.tools.ServiceId;
+import org.jowidgets.plugin.tools.PluginProviderBuilder;
+import org.jowidgets.plugin.tools.PluginProviderHolder;
+import org.jowidgets.useradmin.service.authentication.plugin.IUserAdminAutheticationPlugin;
 
-public final class AuthorizationProviderServiceId {
+public final class SecondHandServicePluginProviderHolder extends PluginProviderHolder {
 
-	public static final IServiceId<IAuthorizationProviderService<DefaultPrincipal>> ID = new ServiceId<IAuthorizationProviderService<DefaultPrincipal>>(
-		AuthorizationProviderServiceId.class.getName() + "ID",
-		IAuthorizationProviderService.class);
+	public SecondHandServicePluginProviderHolder() {
+		super(new ModelerPluginProviderBuilder(), 2);
+	}
 
-	private AuthorizationProviderServiceId() {}
+	private static final class ModelerPluginProviderBuilder extends PluginProviderBuilder {
 
+		public ModelerPluginProviderBuilder() {
+			addPlugin(IUserAdminAutheticationPlugin.ID, new GenerateDefaultAuthoritiesPlugin());
+		}
+
+	}
 }

@@ -29,10 +29,20 @@
 package org.jowidgets.sherp.app.ui.workbench;
 
 import org.jowidgets.cap.ui.tools.workbench.CapWorkbenchModelBuilder;
+import org.jowidgets.sherp.app.ui.defaults.SecondHandDefaultsInitializer;
+import org.jowidgets.sherp.app.ui.defaults.SecondHandSilkIconsInitializer;
+import org.jowidgets.sherp.app.ui.lookup.LookupInitializer;
+import org.jowidgets.useradmin.ui.action.UserAdminPasswordChangeAction;
+import org.jowidgets.useradmin.ui.application.UserAdminApplicationFactory;
+import org.jowidgets.useradmin.ui.workbench.WorkbenchSettingsMenu;
 import org.jowidgets.workbench.api.IWorkbench;
+import org.jowidgets.workbench.api.IWorkbenchContext;
 import org.jowidgets.workbench.api.IWorkbenchFactory;
+import org.jowidgets.workbench.toolkit.api.IWorkbenchApplicationModel;
+import org.jowidgets.workbench.toolkit.api.IWorkbenchInitializeCallback;
+import org.jowidgets.workbench.toolkit.api.IWorkbenchModel;
 import org.jowidgets.workbench.toolkit.api.IWorkbenchModelBuilder;
-import org.jowidgets.workbench.toolkit.api.WorkbenchToolkit;
+import org.jowidgets.workbench.toolkit.api.WorkbenchPartFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public final class SecondHandWorkbench implements IWorkbenchFactory {
@@ -60,7 +70,30 @@ public final class SecondHandWorkbench implements IWorkbenchFactory {
 			builder.setDecorated(false);
 		}
 
-		return WorkbenchToolkit.getWorkbenchPartFactory().workbench(builder.build());
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
+
+		SecondHandSilkIconsInitializer.initialize();
+		SecondHandDefaultsInitializer.initialize(!webapp);
+
+		LookupInitializer.initializeLookupsAsync();
+
+		builder.addInitializeCallback(new IWorkbenchInitializeCallback() {
+			@Override
+			public void onContextInitialize(final IWorkbenchModel model, final IWorkbenchContext context) {
+				model.getMenuBar().addMenu(new WorkbenchSettingsMenu());
+				model.getToolBar().addSeparator();
+				model.getToolBar().addAction(new UserAdminPasswordChangeAction());
+
+				final IWorkbenchApplicationModel userAdminApp = UserAdminApplicationFactory.create();
+				if (userAdminApp.getChildrenCount() > 0) {
+					model.addApplication(userAdminApp);
+				}
+			}
+		});
+
+		return WorkbenchPartFactory.workbench(builder.build());
+
 	}
 
 }

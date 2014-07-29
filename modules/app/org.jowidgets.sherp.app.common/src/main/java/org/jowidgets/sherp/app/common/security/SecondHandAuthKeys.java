@@ -26,24 +26,44 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service.security;
+package org.jowidgets.sherp.app.common.security;
 
-import org.jowidgets.cap.common.api.execution.IExecutionCallback;
-import org.jowidgets.cap.common.api.execution.IResultCallback;
-import org.jowidgets.cap.common.api.service.IAuthorizationProviderService;
-import org.jowidgets.security.api.IPrincipal;
-import org.jowidgets.security.api.SecurityContextHolder;
-import org.jowidgets.security.tools.DefaultPrincipal;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
-public final class AuthorizationProviderServiceImpl implements IAuthorizationProviderService<IPrincipal<String>> {
+public final class SecondHandAuthKeys {
 
-	@Override
-	public void getPrincipal(final IResultCallback<IPrincipal<String>> result, final IExecutionCallback executionCallback) {
-		try {
-			result.finished((DefaultPrincipal) SecurityContextHolder.getSecurityContext());
+	public static final String SECOND_HAND_ADMIN_GROUP = "SECOND_HAND_ADMIN";
+
+	//CRUD services
+	public static final String CREATE_CUSTOMER = "CREATE_CUSTOMER";
+	public static final String READ_CUSTOMER = "READ_CUSTOMER";
+	public static final String UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
+	public static final String DELETE_CUSTOMER = "DELETE_CUSTOMER";
+
+	//Authorizations collection
+	public static final Collection<String> ALL_AUTHORIZATIONS = createAuthorizations();
+
+	private SecondHandAuthKeys() {}
+
+	private static List<String> createAuthorizations() {
+		final List<String> result = new LinkedList<String>();
+		for (final Field field : SecondHandAuthKeys.class.getDeclaredFields()) {
+			if (field.getType().equals(String.class)) {
+				try {
+					final String fieldValue = (String) field.get(SecondHandAuthKeys.class);
+					if (!SECOND_HAND_ADMIN_GROUP.equals(fieldValue)) {
+						result.add(fieldValue);
+					}
+				}
+				catch (final Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
-		catch (final Exception exception) {
-			result.exception(exception);
-		}
+		return result;
 	}
+
 }
