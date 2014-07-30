@@ -38,8 +38,8 @@ import org.jowidgets.cap.ui.api.workbench.IEntityComponentNodesFactory;
 import org.jowidgets.common.image.IImageConstant;
 import org.jowidgets.service.api.ServiceProvider;
 import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
+import org.jowidgets.sherp.app.ui.icons.SecondHandIcons;
 import org.jowidgets.sherp.app.ui.messages.SecondHandMessages;
-import org.jowidgets.useradmin.ui.icons.UserAdminIcons;
 import org.jowidgets.workbench.toolkit.api.IComponentNodeModel;
 import org.jowidgets.workbench.toolkit.api.IWorkbenchApplicationModel;
 import org.jowidgets.workbench.toolkit.api.IWorkbenchApplicationModelBuilder;
@@ -60,7 +60,8 @@ public final class SecondHandApplicationFactory {
 	}
 
 	private static void createComponentTree(final IWorkbenchApplicationModelBuilder model) {
-		addEntityComponent(model, SecondHandEntityIds.CUSTOMER, UserAdminIcons.PERSON);
+		addEntityComponent(model, SecondHandEntityIds.CUSTOMER, SecondHandIcons.CUSTOMER);
+		addEntityComponent(model, SecondHandEntityIds.COMMODITY, SecondHandIcons.COMMODITY);
 	}
 
 	private static void addEntityComponent(

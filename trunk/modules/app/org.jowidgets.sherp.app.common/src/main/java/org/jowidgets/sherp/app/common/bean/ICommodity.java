@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -25,31 +25,42 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+package org.jowidgets.sherp.app.common.bean;
 
-package org.jowidgets.sherp.app.service.entity;
+import java.util.Arrays;
+import java.util.List;
 
-import org.jowidgets.cap.service.api.entity.IBeanEntityBluePrint;
-import org.jowidgets.cap.service.jpa.tools.entity.JpaEntityServiceBuilderWrapper;
-import org.jowidgets.service.api.IServiceRegistry;
-import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
-import org.jowidgets.sherp.app.service.bean.Commodity;
-import org.jowidgets.sherp.app.service.bean.Customer;
-import org.jowidgets.sherp.app.service.descriptor.CommodityDtoDescriptorBuilder;
-import org.jowidgets.sherp.app.service.descriptor.CustomerDtoDescriptorBuilder;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilderWrapper {
+import org.jowidgets.cap.common.api.bean.IBean;
+import org.jowidgets.cap.security.common.api.annotation.CreateAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.DeleteAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.ReadAuthorization;
+import org.jowidgets.cap.security.common.api.annotation.UpdateAuthorization;
+import org.jowidgets.sherp.app.common.security.SecondHandAuthKeys;
 
-	public SecondHandEntityServiceBuilder(final IServiceRegistry registry) {
-		super(registry);
+@CreateAuthorization(SecondHandAuthKeys.CREATE_CUSTOMER)
+@ReadAuthorization(SecondHandAuthKeys.READ_CUSTOMER)
+@UpdateAuthorization(SecondHandAuthKeys.UPDATE_CUSTOMER)
+@DeleteAuthorization(SecondHandAuthKeys.DELETE_CUSTOMER)
+public interface ICommodity extends IBean {
 
-		//ICustomer
-		IBeanEntityBluePrint bp = addEntity().setEntityId(SecondHandEntityIds.CUSTOMER).setBeanType(Customer.class);
-		bp.setDtoDescriptor(new CustomerDtoDescriptorBuilder());
+	String BARCODE_PROPERTY = "barcode";
+	String NAME_PROPERTY = "name";
 
-		//ICommodity
-		bp = addEntity().setEntityId(SecondHandEntityIds.COMMODITY).setBeanType(Commodity.class);
-		bp.setDtoDescriptor(new CommodityDtoDescriptorBuilder());
+	List<String> ALL_PROPERTIES = Arrays.asList(BARCODE_PROPERTY, NAME_PROPERTY, IBean.ID_PROPERTY, IBean.VERSION_PROPERTY);
 
-	}
+	@NotNull
+	@Size(min = 2, max = 50)
+	String getBarcode();
+
+	void setBarcode(String barcode);
+
+	@NotNull
+	@Size(min = 2, max = 50)
+	String getName();
+
+	void setName(String name);
 
 }

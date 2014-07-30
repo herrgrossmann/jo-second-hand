@@ -32,6 +32,7 @@ import org.jowidgets.cap.ui.tools.workbench.CapWorkbenchModelBuilder;
 import org.jowidgets.sherp.app.ui.application.SecondHandApplicationFactory;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandDefaultsInitializer;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandSilkIconsInitializer;
+import org.jowidgets.sherp.app.ui.icons.SecondHandIcons;
 import org.jowidgets.sherp.app.ui.lookup.LookupInitializer;
 import org.jowidgets.useradmin.ui.action.UserAdminPasswordChangeAction;
 import org.jowidgets.useradmin.ui.application.UserAdminApplicationFactory;
@@ -65,6 +66,7 @@ public final class SecondHandWorkbench implements IWorkbenchFactory {
 
 		final IWorkbenchModelBuilder builder = new CapWorkbenchModelBuilder();
 		builder.setLabel("SecondHand");
+		builder.setIcon(SecondHandIcons.SECOND_HAND);
 
 		if (webapp) {
 			builder.setInitialMaximized(true);

@@ -54,8 +54,6 @@ public final class CustomerDtoDescriptorBuilder extends AbstractDtoDescriptorBui
 
 		final IBeanPropertyBluePrint propertyBp = addProperty(ICustomer.NAME_PROPERTY);
 		propertyBp.setLabel(getMessage("name.label"));
-		propertyBp.setDescription(getMessage("name.description"));
-		propertyBp.setMandatory(true);
 
 		addVersionProperty();
 	}

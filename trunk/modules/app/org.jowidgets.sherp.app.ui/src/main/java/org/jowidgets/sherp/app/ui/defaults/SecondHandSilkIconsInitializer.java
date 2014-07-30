@@ -28,6 +28,10 @@
 
 package org.jowidgets.sherp.app.ui.defaults;
 
+import org.jowidgets.addons.icons.silkicons.SilkIcons;
+import org.jowidgets.api.toolkit.Toolkit;
+import org.jowidgets.common.image.IImageRegistry;
+import org.jowidgets.sherp.app.ui.icons.SecondHandIcons;
 import org.jowidgets.useradmin.ui.defaults.UserAdminSilkIconsInitializer;
 
 public final class SecondHandSilkIconsInitializer {
@@ -36,6 +40,13 @@ public final class SecondHandSilkIconsInitializer {
 
 	public static void initialize() {
 		UserAdminSilkIconsInitializer.initialize();
+
+		final IImageRegistry registry = Toolkit.getImageRegistry();
+
+		registry.registerImageConstant(SecondHandIcons.SECOND_HAND, SilkIcons.BASKET);
+		registry.registerImageConstant(SecondHandIcons.CUSTOMER, SilkIcons.USER);
+		registry.registerImageConstant(SecondHandIcons.COMMODITY, SilkIcons.BASKET);
+
 	}
 
 }
