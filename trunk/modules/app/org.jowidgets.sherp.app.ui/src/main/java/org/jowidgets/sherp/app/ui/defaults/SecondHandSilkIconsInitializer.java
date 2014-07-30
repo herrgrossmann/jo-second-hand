@@ -46,6 +46,7 @@ public final class SecondHandSilkIconsInitializer {
 		registry.registerImageConstant(SecondHandIcons.SECOND_HAND, SilkIcons.BASKET);
 		registry.registerImageConstant(SecondHandIcons.CUSTOMER, SilkIcons.USER);
 		registry.registerImageConstant(SecondHandIcons.COMMODITY, SilkIcons.BASKET);
+		registry.registerImageConstant(SecondHandIcons.LOOK_UP, SilkIcons.EYE);
 
 	}
 

@@ -48,6 +48,16 @@ public final class SecondHandAuthKeys {
 	public static final String UPDATE_COMMODITY = "UPDATE_COMMODITY";
 	public static final String DELETE_COMMODITY = "DELETE_COMMODITY";
 
+	public static final String CREATE_LOOK_UP = "CREATE_LOOK_UP";
+	public static final String READ_LOOK_UP = "READ_LOOK_UP";
+	public static final String UPDATE_LOOK_UP = "UPDATE_LOOK_UP";
+	public static final String DELETE_LOOK_UP = "DELETE_LOOK_UP";
+
+	public static final String CREATE_LOOK_UP_ELEMENT = "CREATE_LOOK_UP_ELEMENT";
+	public static final String READ_LOOK_UP_ELEMENT = "READ_LOOK_UP_ELEMENT";
+	public static final String UPDATE_LOOK_UP_ELEMENT = "UPDATE_LOOK_UP_ELEMENT";
+	public static final String DELETE_LOOK_UP_ELEMENT = "DELETE_LOOK_UP_ELEMENT";
+
 	//Authorizations collection
 	public static final Collection<String> ALL_AUTHORIZATIONS = createAuthorizations();
 

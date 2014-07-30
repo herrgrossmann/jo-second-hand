@@ -31,6 +31,10 @@ package org.jowidgets.sherp.app.common.entity;
 public enum SecondHandEntityIds {
 
 	CUSTOMER,
-	COMMODITY;
+	COMMODITY,
+
+	LOOK_UP,
+
+	LINKED_LOOK_UP_ELEMENTS_OF_LOOK_UP;
 
 }

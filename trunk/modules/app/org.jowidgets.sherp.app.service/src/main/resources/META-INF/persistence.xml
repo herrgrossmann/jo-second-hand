@@ -10,6 +10,8 @@
 		<class>org.jowidgets.sherp.app.service.bean.Bean</class>
 		<class>org.jowidgets.sherp.app.service.bean.Customer</class>	
 		<class>org.jowidgets.sherp.app.service.bean.Commodity</class>
+		<class>org.jowidgets.sherp.app.service.bean.LookUp</class>
+		<class>org.jowidgets.sherp.app.service.bean.LookUpElement</class>
 		
 		<properties>	
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />

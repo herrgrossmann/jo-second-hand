@@ -26,29 +26,24 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.ui.messages;
+package org.jowidgets.sherp.app.common.dto;
 
 import org.jowidgets.i18n.api.IMessage;
-import org.jowidgets.i18n.api.IMessageProvider;
-import org.jowidgets.i18n.api.MessageProvider;
 
-public final class SecondHandMessages {
+public enum LookUpDisplayFormat {
 
-	public static IMessage SECOND_HAND_LABEL = getMessage("SecondHand.label");
-	public static IMessage SECOND_HAND_ADMINSISTRATION_LABEL = getMessage("SecondHandAdministration.label");
+	SHORT(Messages.getMessage("LookUpDisplayFormat.short")),
+	LONG(Messages.getMessage("LookUpDisplayFormat.long"));
 
-	private static IMessageProvider messageProvider;
+	private IMessage label;
 
-	private SecondHandMessages() {}
-
-	private static IMessage getMessage(final String key) {
-		return getMessageProvider().getMessage(key);
+	LookUpDisplayFormat(final IMessage label) {
+		this.label = label;
 	}
 
-	private static IMessageProvider getMessageProvider() {
-		if (messageProvider == null) {
-			messageProvider = MessageProvider.create("org.jowidgets.sherp.app.ui.messages.messages", SecondHandMessages.class);
-		}
-		return messageProvider;
+	@Override
+	public String toString() {
+		return label.get();
 	}
+
 }
