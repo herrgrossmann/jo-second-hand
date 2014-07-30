@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2012, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -25,36 +25,33 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+package org.jowidgets.sherp.app.service.bean;
 
-package org.jowidgets.sherp.app.service;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+import org.jowidgets.cap.common.api.bean.IBean;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+@MappedSuperclass
+public class Bean implements IBean {
 
-	public SecondHandServiceProviderBuilder() {
+	@Id
+	@GeneratedValue
+	private Long id;
 
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
+	@Version
+	private long version;
 
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
+	@Override
+	public Long getId() {
+		return id;
 	}
 
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
-	}
-
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
+	@Override
+	public long getVersion() {
+		return version;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,42 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.common.entity;
+package org.jowidgets.sherp.app.service.descriptor;
 
-public enum EntityIds {
+import org.jowidgets.cap.common.api.bean.IBeanPropertyBluePrint;
+import org.jowidgets.cap.common.api.sort.Sort;
+import org.jowidgets.i18n.api.IMessage;
+import org.jowidgets.sherp.app.common.bean.ICustomer;
+import org.jowidgets.sherp.app.common.i18n.SecondHandEntityMessages;
+import org.jowidgets.util.Assert;
 
-	CUSTOMER
+public final class CustomerDtoDescriptorBuilder extends AbstractDtoDescriptorBuilder {
 
+	public CustomerDtoDescriptorBuilder() {
+		this(getMessage("customer"), getMessage("customers"));
+	}
+
+	public CustomerDtoDescriptorBuilder(final IMessage labelSingular, final IMessage labelPlural) {
+		super(ICustomer.class);
+
+		setLabelSingular(labelSingular);
+		setLabelPlural(labelPlural);
+		setDefaultSorting(Sort.create(ICustomer.NAME_PROPERTY));
+
+		setRenderingPattern("$" + ICustomer.NAME_PROPERTY + "$");
+
+		addIdProperty();
+
+		final IBeanPropertyBluePrint propertyBp = addProperty(ICustomer.NAME_PROPERTY);
+		propertyBp.setLabel(getMessage("name.label"));
+		propertyBp.setDescription(getMessage("name.description"));
+		propertyBp.setMandatory(true);
+
+		addVersionProperty();
+	}
+
+	private static IMessage getMessage(final String keySuffix) {
+		Assert.paramNotEmpty(keySuffix, "keySuffix");
+		return SecondHandEntityMessages.getMessage("CustomerDtoDescriptorBuilder." + keySuffix);
+	}
 }

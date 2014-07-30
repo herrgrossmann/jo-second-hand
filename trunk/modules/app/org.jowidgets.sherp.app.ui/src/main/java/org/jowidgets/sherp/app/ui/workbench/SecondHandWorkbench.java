@@ -29,6 +29,7 @@
 package org.jowidgets.sherp.app.ui.workbench;
 
 import org.jowidgets.cap.ui.tools.workbench.CapWorkbenchModelBuilder;
+import org.jowidgets.sherp.app.ui.application.SecondHandApplicationFactory;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandDefaultsInitializer;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandSilkIconsInitializer;
 import org.jowidgets.sherp.app.ui.lookup.LookupInitializer;
@@ -84,6 +85,11 @@ public final class SecondHandWorkbench implements IWorkbenchFactory {
 				model.getMenuBar().addMenu(new WorkbenchSettingsMenu());
 				model.getToolBar().addSeparator();
 				model.getToolBar().addAction(new UserAdminPasswordChangeAction());
+
+				final IWorkbenchApplicationModel secondHandApp = SecondHandApplicationFactory.create();
+				if (secondHandApp.getChildrenCount() > 0) {
+					model.addApplication(secondHandApp);
+				}
 
 				final IWorkbenchApplicationModel userAdminApp = UserAdminApplicationFactory.create();
 				if (userAdminApp.getChildrenCount() > 0) {

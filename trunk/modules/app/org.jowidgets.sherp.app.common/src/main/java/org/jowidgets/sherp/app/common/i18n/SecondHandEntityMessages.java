@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2012, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,35 +26,25 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.common.i18n;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+import org.jowidgets.i18n.api.IMessage;
+import org.jowidgets.i18n.api.IMessageProvider;
+import org.jowidgets.i18n.api.MessageProvider;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+public final class SecondHandEntityMessages {
 
-	public SecondHandServiceProviderBuilder() {
+	private static final IMessageProvider MESSAGE_PROVIDER = MessageProvider.create(
+			"org.jowidgets.sherp.app.common.i18n.messages",
+			SecondHandEntityMessages.class);
 
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
+	private SecondHandEntityMessages() {}
 
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
+	public static String getString(final String key) {
+		return MESSAGE_PROVIDER.getString(key);
 	}
 
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
+	public static IMessage getMessage(final String key) {
+		return MESSAGE_PROVIDER.getMessage(key);
 	}
-
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
-	}
-
 }

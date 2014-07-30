@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2012, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,35 +26,24 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.service.entity;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+import org.jowidgets.cap.service.api.entity.IBeanEntityBluePrint;
+import org.jowidgets.cap.service.jpa.tools.entity.JpaEntityServiceBuilderWrapper;
+import org.jowidgets.service.api.IServiceRegistry;
+import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
+import org.jowidgets.sherp.app.service.bean.Customer;
+import org.jowidgets.sherp.app.service.descriptor.CustomerDtoDescriptorBuilder;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilderWrapper {
 
-	public SecondHandServiceProviderBuilder() {
+	public SecondHandEntityServiceBuilder(final IServiceRegistry registry) {
+		super(registry);
 
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
+		//ICustomer
+		final IBeanEntityBluePrint entityBp = addEntity().setEntityId(SecondHandEntityIds.CUSTOMER).setBeanType(Customer.class);
+		entityBp.setDtoDescriptor(new CustomerDtoDescriptorBuilder());
 
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
-	}
-
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
-	}
-
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
 	}
 
 }
