@@ -28,14 +28,23 @@
 
 package org.jowidgets.sherp.app.service.entity;
 
+import org.jowidgets.cap.common.api.service.IReaderService;
 import org.jowidgets.cap.service.api.entity.IBeanEntityBluePrint;
+import org.jowidgets.cap.service.api.entity.IBeanEntityLinkBluePrint;
+import org.jowidgets.cap.service.jpa.api.query.ICriteriaQueryCreatorBuilder;
+import org.jowidgets.cap.service.jpa.api.query.JpaQueryToolkit;
 import org.jowidgets.cap.service.jpa.tools.entity.JpaEntityServiceBuilderWrapper;
 import org.jowidgets.service.api.IServiceRegistry;
+import org.jowidgets.sherp.app.common.bean.ILookUpElement;
 import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
 import org.jowidgets.sherp.app.service.bean.Commodity;
 import org.jowidgets.sherp.app.service.bean.Customer;
+import org.jowidgets.sherp.app.service.bean.LookUp;
+import org.jowidgets.sherp.app.service.bean.LookUpElement;
 import org.jowidgets.sherp.app.service.descriptor.CommodityDtoDescriptorBuilder;
 import org.jowidgets.sherp.app.service.descriptor.CustomerDtoDescriptorBuilder;
+import org.jowidgets.sherp.app.service.descriptor.LookUpDtoDescriptorBuilder;
+import org.jowidgets.sherp.app.service.descriptor.LookUpElementDtoDescriptorBuilder;
 
 public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilderWrapper {
 
@@ -50,6 +59,32 @@ public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilde
 		bp = addEntity().setEntityId(SecondHandEntityIds.COMMODITY).setBeanType(Commodity.class);
 		bp.setDtoDescriptor(new CommodityDtoDescriptorBuilder());
 
+		//ILookUp
+		bp = addEntity().setEntityId(SecondHandEntityIds.LOOK_UP).setBeanType(LookUp.class);
+		bp.setDtoDescriptor(new LookUpDtoDescriptorBuilder());
+		addLookUpLookUpElementLinkDescriptor(bp);
+
+		//Linked look up elements of look up
+		bp = addEntity().setEntityId(SecondHandEntityIds.LINKED_LOOK_UP_ELEMENTS_OF_LOOK_UP);
+		bp.setBeanType(LookUpElement.class);
+		bp.setDtoDescriptor(new LookUpElementDtoDescriptorBuilder());
+		bp.setReaderService(createLookUpElementsOfLookUpReader());
+		bp.setProperties(ILookUpElement.ALL_PROPERTIES);
+
 	}
 
+	private void addLookUpLookUpElementLinkDescriptor(final IBeanEntityBluePrint entityBp) {
+		final IBeanEntityLinkBluePrint bp = entityBp.addLink();
+		bp.setLinkEntityId(SecondHandEntityIds.LINKED_LOOK_UP_ELEMENTS_OF_LOOK_UP);
+		bp.setLinkBeanType(LookUpElement.class);
+		bp.setLinkedEntityId(SecondHandEntityIds.LINKED_LOOK_UP_ELEMENTS_OF_LOOK_UP);
+		bp.setSourceProperties(LookUpElement.LOOK_UP_ID_PROPERTY);
+		bp.setLinkDeleterService(null);
+	}
+
+	private IReaderService<Void> createLookUpElementsOfLookUpReader() {
+		final ICriteriaQueryCreatorBuilder<Void> queryBuilder = JpaQueryToolkit.criteriaQueryCreatorBuilder(LookUpElement.class);
+		queryBuilder.setParentPropertyPath("lookUp");
+		return getServiceFactory().readerService(LookUpElement.class, queryBuilder.build(), ILookUpElement.ALL_PROPERTIES);
+	}
 }

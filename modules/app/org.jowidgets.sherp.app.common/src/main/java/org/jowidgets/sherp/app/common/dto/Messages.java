@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,29 +26,25 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.ui.messages;
+package org.jowidgets.sherp.app.common.dto;
 
 import org.jowidgets.i18n.api.IMessage;
 import org.jowidgets.i18n.api.IMessageProvider;
 import org.jowidgets.i18n.api.MessageProvider;
 
-public final class SecondHandMessages {
+public final class Messages {
 
-	public static IMessage SECOND_HAND_LABEL = getMessage("SecondHand.label");
-	public static IMessage SECOND_HAND_ADMINSISTRATION_LABEL = getMessage("SecondHandAdministration.label");
+	private static final IMessageProvider MESSAGE_PROVIDER = MessageProvider.create(
+			"org.jowidgets.sherp.app.common.dto.messages",
+			Messages.class);
 
-	private static IMessageProvider messageProvider;
+	private Messages() {}
 
-	private SecondHandMessages() {}
-
-	private static IMessage getMessage(final String key) {
-		return getMessageProvider().getMessage(key);
+	public static String getString(final String key) {
+		return MESSAGE_PROVIDER.getString(key);
 	}
 
-	private static IMessageProvider getMessageProvider() {
-		if (messageProvider == null) {
-			messageProvider = MessageProvider.create("org.jowidgets.sherp.app.ui.messages.messages", SecondHandMessages.class);
-		}
-		return messageProvider;
+	public static IMessage getMessage(final String key) {
+		return MESSAGE_PROVIDER.getMessage(key);
 	}
 }

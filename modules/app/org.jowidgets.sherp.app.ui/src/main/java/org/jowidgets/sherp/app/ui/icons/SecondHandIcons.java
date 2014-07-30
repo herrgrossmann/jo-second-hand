@@ -34,6 +34,7 @@ public enum SecondHandIcons implements IImageConstant {
 	SECOND_HAND,
 
 	CUSTOMER,
-	COMMODITY
+	COMMODITY,
+	LOOK_UP;
 
 }

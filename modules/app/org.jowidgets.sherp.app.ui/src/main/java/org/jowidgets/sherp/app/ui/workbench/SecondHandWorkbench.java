@@ -29,6 +29,7 @@
 package org.jowidgets.sherp.app.ui.workbench;
 
 import org.jowidgets.cap.ui.tools.workbench.CapWorkbenchModelBuilder;
+import org.jowidgets.sherp.app.ui.application.SecondHandAdministrationApplicationFactory;
 import org.jowidgets.sherp.app.ui.application.SecondHandApplicationFactory;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandDefaultsInitializer;
 import org.jowidgets.sherp.app.ui.defaults.SecondHandSilkIconsInitializer;
@@ -88,15 +89,10 @@ public final class SecondHandWorkbench implements IWorkbenchFactory {
 				model.getToolBar().addSeparator();
 				model.getToolBar().addAction(new UserAdminPasswordChangeAction());
 
-				final IWorkbenchApplicationModel secondHandApp = SecondHandApplicationFactory.create();
-				if (secondHandApp.getChildrenCount() > 0) {
-					model.addApplication(secondHandApp);
-				}
+				addAppIfNotEmpty(model, SecondHandApplicationFactory.create());
+				addAppIfNotEmpty(model, SecondHandAdministrationApplicationFactory.create());
+				addAppIfNotEmpty(model, UserAdminApplicationFactory.create());
 
-				final IWorkbenchApplicationModel userAdminApp = UserAdminApplicationFactory.create();
-				if (userAdminApp.getChildrenCount() > 0) {
-					model.addApplication(userAdminApp);
-				}
 			}
 		});
 
@@ -104,4 +100,9 @@ public final class SecondHandWorkbench implements IWorkbenchFactory {
 
 	}
 
+	private static void addAppIfNotEmpty(final IWorkbenchModel model, final IWorkbenchApplicationModel app) {
+		if (app.getChildrenCount() > 0) {
+			model.addApplication(app);
+		}
+	}
 }
