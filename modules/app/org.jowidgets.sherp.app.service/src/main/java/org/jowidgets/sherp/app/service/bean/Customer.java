@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2011, H.Westphal
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -25,36 +25,27 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+package org.jowidgets.sherp.app.service.bean;
 
-package org.jowidgets.sherp.app.service;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+import org.jowidgets.sherp.app.common.bean.ICustomer;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+@Entity
+public class Customer extends Bean implements ICustomer {
 
-	public SecondHandServiceProviderBuilder() {
+	@Basic
+	private String name;
 
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
-
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
+	@Override
+	public String getName() {
+		return name;
 	}
 
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
-	}
-
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
+	@Override
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 }

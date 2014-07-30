@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,35 +26,12 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.service.persistence;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+public final class SecondHandPersistenceUnitNames {
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+	public static final String SECOND_HAND = "secondHandPersistenceUnit";
 
-	public SecondHandServiceProviderBuilder() {
-
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
-
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
-	}
-
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
-	}
-
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
-	}
+	private SecondHandPersistenceUnitNames() {}
 
 }

@@ -26,35 +26,38 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service;
+package org.jowidgets.sherp.app.service.descriptor;
 
-import org.jowidgets.cap.common.api.service.IEntityService;
-import org.jowidgets.cap.service.hibernate.api.HibernateServiceToolkit;
-import org.jowidgets.cap.service.jpa.api.IJpaServicesDecoratorProviderBuilder;
-import org.jowidgets.cap.service.jpa.api.JpaServiceToolkit;
-import org.jowidgets.service.api.IServicesDecoratorProvider;
-import org.jowidgets.service.tools.ServiceProviderBuilder;
-import org.jowidgets.sherp.app.service.entity.SecondHandEntityServiceBuilder;
-import org.jowidgets.sherp.app.service.persistence.SecondHandPersistenceUnitNames;
+import org.jowidgets.cap.common.api.bean.IBean;
+import org.jowidgets.cap.common.api.bean.IBeanPropertyBluePrint;
+import org.jowidgets.cap.common.tools.bean.BeanDtoDescriptorBuilder;
+import org.jowidgets.i18n.api.IMessage;
+import org.jowidgets.sherp.app.common.i18n.SecondHandEntityMessages;
+import org.jowidgets.util.Assert;
 
-public class SecondHandServiceProviderBuilder extends ServiceProviderBuilder {
+abstract class AbstractDtoDescriptorBuilder extends BeanDtoDescriptorBuilder {
 
-	public SecondHandServiceProviderBuilder() {
-
-		addService(IEntityService.ID, new SecondHandEntityServiceBuilder(this).build());
-
-		addServiceDecorator(createJpaServiceDecoratorProvider());
-		addServiceDecorator(createCancelServiceDecoratorProvider());
+	AbstractDtoDescriptorBuilder(final Class<?> beanType) {
+		super(beanType);
 	}
 
-	private IServicesDecoratorProvider createJpaServiceDecoratorProvider() {
-		final IJpaServicesDecoratorProviderBuilder builder = JpaServiceToolkit.serviceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND);
-		builder.addExceptionDecorator(HibernateServiceToolkit.exceptionDecorator());
-		return builder.build();
+	void addIdProperty() {
+		final IBeanPropertyBluePrint propertyBp = addProperty(IBean.ID_PROPERTY);
+		propertyBp.setLabel(getMessage("id.label"));
+		propertyBp.setDescription(getMessage("id.description"));
+		propertyBp.setSortable(true);
+		propertyBp.setVisible(false);
 	}
 
-	private IServicesDecoratorProvider createCancelServiceDecoratorProvider() {
-		return HibernateServiceToolkit.cancelServiceDecoratorProviderBuilder(SecondHandPersistenceUnitNames.SECOND_HAND).build();
+	void addVersionProperty() {
+		final IBeanPropertyBluePrint propertyBp = addProperty(IBean.VERSION_PROPERTY);
+		propertyBp.setLabel(getMessage("version.label"));
+		propertyBp.setDescription(getMessage("version.description"));
+		propertyBp.setVisible(false);
 	}
 
+	private static IMessage getMessage(final String keySuffix) {
+		Assert.paramNotEmpty(keySuffix, "keySuffix");
+		return SecondHandEntityMessages.getMessage("AbstractDtoDescriptorBuilder." + keySuffix);
+	}
 }

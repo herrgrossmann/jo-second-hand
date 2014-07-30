@@ -46,9 +46,9 @@ import org.jowidgets.sherp.app.common.security.SecondHandAuthKeys;
 @DeleteAuthorization(SecondHandAuthKeys.DELETE_CUSTOMER)
 public interface ICustomer extends IBean {
 
-	String NAME = "name";
+	String NAME_PROPERTY = "name";
 
-	List<String> ALL_PROPERTIES = Arrays.asList(NAME, IBean.ID_PROPERTY, IBean.VERSION_PROPERTY);
+	List<String> ALL_PROPERTIES = Arrays.asList(NAME_PROPERTY, IBean.ID_PROPERTY, IBean.VERSION_PROPERTY);
 
 	@NotNull
 	@Size(min = 2, max = 50)
