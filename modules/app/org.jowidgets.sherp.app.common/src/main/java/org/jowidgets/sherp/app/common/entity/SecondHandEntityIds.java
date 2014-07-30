@@ -30,6 +30,7 @@ package org.jowidgets.sherp.app.common.entity;
 
 public enum SecondHandEntityIds {
 
-	CUSTOMER
+	CUSTOMER,
+	COMMODITY;
 
 }

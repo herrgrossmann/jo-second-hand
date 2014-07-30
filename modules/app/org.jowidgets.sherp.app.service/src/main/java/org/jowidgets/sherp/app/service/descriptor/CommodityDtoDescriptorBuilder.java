@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, grossmann
+ * Copyright (c) 2014, grossmann
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,30 +26,43 @@
  * DAMAGE.
  */
 
-package org.jowidgets.sherp.app.service.entity;
+package org.jowidgets.sherp.app.service.descriptor;
 
-import org.jowidgets.cap.service.api.entity.IBeanEntityBluePrint;
-import org.jowidgets.cap.service.jpa.tools.entity.JpaEntityServiceBuilderWrapper;
-import org.jowidgets.service.api.IServiceRegistry;
-import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
-import org.jowidgets.sherp.app.service.bean.Commodity;
-import org.jowidgets.sherp.app.service.bean.Customer;
-import org.jowidgets.sherp.app.service.descriptor.CommodityDtoDescriptorBuilder;
-import org.jowidgets.sherp.app.service.descriptor.CustomerDtoDescriptorBuilder;
+import org.jowidgets.cap.common.api.bean.IBeanPropertyBluePrint;
+import org.jowidgets.cap.common.api.sort.Sort;
+import org.jowidgets.i18n.api.IMessage;
+import org.jowidgets.sherp.app.common.bean.ICommodity;
+import org.jowidgets.sherp.app.common.i18n.SecondHandEntityMessages;
+import org.jowidgets.util.Assert;
 
-public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilderWrapper {
+public final class CommodityDtoDescriptorBuilder extends AbstractDtoDescriptorBuilder {
 
-	public SecondHandEntityServiceBuilder(final IServiceRegistry registry) {
-		super(registry);
-
-		//ICustomer
-		IBeanEntityBluePrint bp = addEntity().setEntityId(SecondHandEntityIds.CUSTOMER).setBeanType(Customer.class);
-		bp.setDtoDescriptor(new CustomerDtoDescriptorBuilder());
-
-		//ICommodity
-		bp = addEntity().setEntityId(SecondHandEntityIds.COMMODITY).setBeanType(Commodity.class);
-		bp.setDtoDescriptor(new CommodityDtoDescriptorBuilder());
-
+	public CommodityDtoDescriptorBuilder() {
+		this(getMessage("commodity"), getMessage("commidities"));
 	}
 
+	public CommodityDtoDescriptorBuilder(final IMessage labelSingular, final IMessage labelPlural) {
+		super(ICommodity.class);
+
+		setLabelSingular(labelSingular);
+		setLabelPlural(labelPlural);
+		setDefaultSorting(Sort.create(ICommodity.BARCODE_PROPERTY));
+
+		setRenderingPattern("$" + ICommodity.NAME_PROPERTY + "$ ($" + ICommodity.BARCODE_PROPERTY + "$)");
+
+		addIdProperty();
+
+		IBeanPropertyBluePrint propertyBp = addProperty(ICommodity.BARCODE_PROPERTY);
+		propertyBp.setLabel(getMessage("barcode.label"));
+
+		propertyBp = addProperty(ICommodity.NAME_PROPERTY);
+		propertyBp.setLabel(getMessage("name.label"));
+
+		addVersionProperty();
+	}
+
+	private static IMessage getMessage(final String keySuffix) {
+		Assert.paramNotEmpty(keySuffix, "keySuffix");
+		return SecondHandEntityMessages.getMessage("CommodityDtoDescriptorBuilder." + keySuffix);
+	}
 }

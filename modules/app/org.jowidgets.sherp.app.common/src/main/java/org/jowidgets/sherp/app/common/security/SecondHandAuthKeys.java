@@ -43,6 +43,11 @@ public final class SecondHandAuthKeys {
 	public static final String UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
 	public static final String DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
+	public static final String CREATE_COMMODITY = "CREATE_COMMODITY";
+	public static final String READ_COMMODITY = "READ_COMMODITY";
+	public static final String UPDATE_COMMODITY = "UPDATE_COMMODITY";
+	public static final String DELETE_COMMODITY = "DELETE_COMMODITY";
+
 	//Authorizations collection
 	public static final Collection<String> ALL_AUTHORIZATIONS = createAuthorizations();
 

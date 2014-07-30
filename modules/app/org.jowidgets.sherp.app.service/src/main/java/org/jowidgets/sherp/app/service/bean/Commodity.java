@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, grossmann
+ * Copyright (c) 2011, H.Westphal
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -25,31 +25,40 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
  */
+package org.jowidgets.sherp.app.service.bean;
 
-package org.jowidgets.sherp.app.service.entity;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
 
-import org.jowidgets.cap.service.api.entity.IBeanEntityBluePrint;
-import org.jowidgets.cap.service.jpa.tools.entity.JpaEntityServiceBuilderWrapper;
-import org.jowidgets.service.api.IServiceRegistry;
-import org.jowidgets.sherp.app.common.entity.SecondHandEntityIds;
-import org.jowidgets.sherp.app.service.bean.Commodity;
-import org.jowidgets.sherp.app.service.bean.Customer;
-import org.jowidgets.sherp.app.service.descriptor.CommodityDtoDescriptorBuilder;
-import org.jowidgets.sherp.app.service.descriptor.CustomerDtoDescriptorBuilder;
+import org.jowidgets.sherp.app.common.bean.ICommodity;
 
-public final class SecondHandEntityServiceBuilder extends JpaEntityServiceBuilderWrapper {
+@Entity
+public class Commodity extends Bean implements ICommodity {
 
-	public SecondHandEntityServiceBuilder(final IServiceRegistry registry) {
-		super(registry);
+	@Basic
+	private String barcode;
 
-		//ICustomer
-		IBeanEntityBluePrint bp = addEntity().setEntityId(SecondHandEntityIds.CUSTOMER).setBeanType(Customer.class);
-		bp.setDtoDescriptor(new CustomerDtoDescriptorBuilder());
+	@Basic
+	private String name;
 
-		//ICommodity
-		bp = addEntity().setEntityId(SecondHandEntityIds.COMMODITY).setBeanType(Commodity.class);
-		bp.setDtoDescriptor(new CommodityDtoDescriptorBuilder());
+	@Override
+	public String getName() {
+		return name;
+	}
 
+	@Override
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getBarcode() {
+		return barcode;
+	}
+
+	@Override
+	public void setBarcode(final String barcode) {
+		this.barcode = barcode;
 	}
 
 }
