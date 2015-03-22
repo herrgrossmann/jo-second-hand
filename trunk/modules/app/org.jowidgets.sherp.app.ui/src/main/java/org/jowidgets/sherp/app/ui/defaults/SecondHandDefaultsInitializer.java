@@ -28,16 +28,17 @@
 
 package org.jowidgets.sherp.app.ui.defaults;
 
+import org.jowidgets.api.toolkit.Toolkit;
 import org.jowidgets.api.types.AutoPackPolicy;
 import org.jowidgets.api.widgets.blueprint.builder.IComboBoxSelectionSetupBuilder;
 import org.jowidgets.api.widgets.blueprint.builder.ITableSetupBuilder;
 import org.jowidgets.api.widgets.blueprint.defaults.IDefaultInitializer;
+import org.jowidgets.api.widgets.blueprint.factory.IBluePrintProxyFactory;
 import org.jowidgets.cap.ui.api.types.RelationRenderingPolicy;
 import org.jowidgets.cap.ui.api.widgets.IBeanFormBluePrint;
 import org.jowidgets.cap.ui.api.widgets.IBeanRelationTreeBluePrint;
 import org.jowidgets.cap.ui.api.widgets.IBeanRelationTreeDetailBluePrint;
 import org.jowidgets.cap.ui.api.widgets.IBeanTableBluePrint;
-import org.jowidgets.tools.widgets.blueprint.BPF;
 
 public final class SecondHandDefaultsInitializer {
 
@@ -45,7 +46,9 @@ public final class SecondHandDefaultsInitializer {
 
 	public static void initialize(final boolean autoCompletionCombos) {
 
-		BPF.addDefaultsInitializer(
+		final IBluePrintProxyFactory bppf = Toolkit.getBluePrintProxyFactory();
+
+		bppf.addDefaultsInitializer(
 				IComboBoxSelectionSetupBuilder.class,
 				new IDefaultInitializer<IComboBoxSelectionSetupBuilder<?, ?>>() {
 					@Override
@@ -54,7 +57,7 @@ public final class SecondHandDefaultsInitializer {
 					}
 				});
 
-		BPF.addDefaultsInitializer(IBeanTableBluePrint.class, new IDefaultInitializer<IBeanTableBluePrint<?>>() {
+		bppf.addDefaultsInitializer(IBeanTableBluePrint.class, new IDefaultInitializer<IBeanTableBluePrint<?>>() {
 			@Override
 			public void initialize(final IBeanTableBluePrint<?> bluePrint) {
 				bluePrint.setAutoPackPolicy(AutoPackPolicy.ONCE);
@@ -65,21 +68,21 @@ public final class SecondHandDefaultsInitializer {
 			}
 		});
 
-		BPF.addDefaultsInitializer(IBeanFormBluePrint.class, new IDefaultInitializer<IBeanFormBluePrint<?>>() {
+		bppf.addDefaultsInitializer(IBeanFormBluePrint.class, new IDefaultInitializer<IBeanFormBluePrint<?>>() {
 			@Override
 			public void initialize(final IBeanFormBluePrint<?> builder) {
 				builder.setMaxWidthDefault(800);
 			}
 		});
 
-		BPF.addDefaultsInitializer(ITableSetupBuilder.class, new IDefaultInitializer<ITableSetupBuilder<?>>() {
+		bppf.addDefaultsInitializer(ITableSetupBuilder.class, new IDefaultInitializer<ITableSetupBuilder<?>>() {
 			@Override
 			public void initialize(final ITableSetupBuilder<?> setupBuilder) {
 				setupBuilder.setEditable(true);
 			}
 		});
 
-		BPF.addDefaultsInitializer(
+		bppf.addDefaultsInitializer(
 				IBeanRelationTreeDetailBluePrint.class,
 				new IDefaultInitializer<IBeanRelationTreeDetailBluePrint<?>>() {
 					@Override
@@ -89,7 +92,7 @@ public final class SecondHandDefaultsInitializer {
 					}
 				});
 
-		BPF.addDefaultsInitializer(IBeanRelationTreeBluePrint.class, new IDefaultInitializer<IBeanRelationTreeBluePrint<?>>() {
+		bppf.addDefaultsInitializer(IBeanRelationTreeBluePrint.class, new IDefaultInitializer<IBeanRelationTreeBluePrint<?>>() {
 			@Override
 			public void initialize(final IBeanRelationTreeBluePrint<?> bluePrint) {
 				bluePrint.setRelationRenderingPolicy(RelationRenderingPolicy.GREY_EMPTY_RELATIONS);
