@@ -1,0 +1,1 @@
+Management of customers, commodity, and processes (incomming good, sale, customer invoice and so on)
